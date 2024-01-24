@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    
+    <div id="product-list">
+        <ul>
+            <li>
+                <span>Product 1 - $10</span>
+                <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+            </li>
+            <li>
+                <span>Product 2 - $20</span>
+                <button onclick="addToCart('Product 2', 20)">Add to Cart</button>
+            </li>
+            <li>
+                <span>Product 3 - $30</span>
+                <button onclick="addToCart('Product 3', 30)">Add to Cart</button>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Shopping Cart Contents</h2>
+    <div id="shopping-cart">
+        <ul>
+        </ul>
+        <p>Total: $<span id="cart-total">0</span></p>
+    </div>
+
+    <script>
+        const cart = [];
+        let total = 0;
+
+        function addToCart(productName, productPrice) {
+            cart.push({ name: productName, price: productPrice });
+            total += productPrice;
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            total -= cart[index].price;
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartList = document.getElementById('shopping-cart').querySelector('ul');
+            const cartTotal = document.getElementById('cart-total');
+            cartList.innerHTML = '';
+            cart.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button>`;
+                cartList.appendChild(li);
+            });
+            cartTotal.textContent = total;
+        }
+    </script>
+</body>
+</html>
